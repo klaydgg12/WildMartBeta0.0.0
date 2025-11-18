@@ -1,125 +1,117 @@
 package com.ecommerce.WildMartV1.citccs.dto;
 
+import java.time.LocalDateTime;
+
 public class UserDTO {
     private Long id;
     private String username;
     private String email;
-    private String phone;
-    private String address;
-    private String city;
-    private String zipCode;
-    private String country;
+    private String fullName;
+    private String phoneNumber;
+    private String profileImage;
     private String bio;
-    private String profileImageUrl;
-    private Double rating;
-    private Integer productCount;
-    private Integer salesCount;
-    
-    // Constructors
-    public UserDTO() {}
-    
-    // Getters and Setters
+    private String shippingAddress;
+    private String paymentInfoEncrypted;
+    private Boolean verified;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    public UserDTO() {
+    }
+
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public String getUsername() {
         return username;
     }
-    
+
     public void setUsername(String username) {
         this.username = username;
     }
-    
+
     public String getEmail() {
         return email;
     }
-    
+
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    public String getPhone() {
-        return phone;
+
+    public String getFullName() {
+        return fullName;
     }
-    
-    public void setPhone(String phone) {
-        this.phone = phone;
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
-    
-    public String getAddress() {
-        return address;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
-    
-    public void setAddress(String address) {
-        this.address = address;
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
-    
-    public String getCity() {
-        return city;
+
+    public String getProfileImage() {
+        return profileImage;
     }
-    
-    public void setCity(String city) {
-        this.city = city;
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
-    
-    public String getZipCode() {
-        return zipCode;
-    }
-    
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-    
-    public String getCountry() {
-        return country;
-    }
-    
-    public void setCountry(String country) {
-        this.country = country;
-    }
-    
+
     public String getBio() {
         return bio;
     }
-    
+
     public void setBio(String bio) {
         this.bio = bio;
     }
-    
-    public String getProfileImageUrl() {
-        return profileImageUrl;
+
+    public String getShippingAddress() {
+        return shippingAddress;
     }
-    
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
-    
-    public Double getRating() {
-        return rating;
+
+    public String getPaymentInfoEncrypted() {
+        return paymentInfoEncrypted;
     }
-    
-    public void setRating(Double rating) {
-        this.rating = rating;
+
+    public void setPaymentInfoEncrypted(String paymentInfoEncrypted) {
+        this.paymentInfoEncrypted = paymentInfoEncrypted;
     }
-    
-    public Integer getProductCount() {
-        return productCount;
+
+    public Boolean getVerified() {
+        return verified;
     }
-    
-    public void setProductCount(Integer productCount) {
-        this.productCount = productCount;
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
     }
-    
-    public Integer getSalesCount() {
-        return salesCount;
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
-    
-    public void setSalesCount(Integer salesCount) {
-        this.salesCount = salesCount;
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

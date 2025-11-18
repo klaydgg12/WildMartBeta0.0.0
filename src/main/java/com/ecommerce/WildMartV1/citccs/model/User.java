@@ -2,233 +2,256 @@ package com.ecommerce.WildMartV1.citccs.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
 public class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
-    
-    @Column(unique = true, nullable = false)
+
+    @Column(nullable = false, unique = true)
     private String username;
-    
-    @Column(unique = true, nullable = false)
+
+    @Column(nullable = false, unique = true)
     private String email;
-    
-    @Column(nullable = false)
-    private String password;
-    
-    private String phone;
-    private String address;
-    private String city;
-    private String zipCode;
-    private String country;
+
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
+
+    @Column(name = "full_name")
+    private String fullName;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "profile_image")
+    private String profileImage;
+
+    @Lob
     private String bio;
-    private String profileImageUrl;
-    
-    @Column(nullable = false)
-    private Double rating = 0.0;
-    
-    @Column(nullable = false)
-    private Integer productCount = 0;
-    
-    @Column(nullable = false)
-    private Integer salesCount = 0;
-    
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-    
-    @Column(nullable = false)
-    private LocalDateTime updatedAt = LocalDateTime.now();
-    
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Product> products = new HashSet<>();
-    
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Order> orders = new HashSet<>();
-    
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+
+    @Lob
+    @Column(name = "shipping_address")
+    private String shippingAddress;
+
+    @Column(name = "payment_info_encrypted")
+    private String paymentInfoEncrypted;
+
+    @Column(name = "is_verified", nullable = false)
+    private Boolean verified = Boolean.FALSE;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> products = new ArrayList<>();
+
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+    private List<Order> ordersPlaced = new ArrayList<>();
+
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
+    private List<Order> ordersFulfilled = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
-    
-    @ManyToMany
-    @JoinTable(
-        name = "user_likes",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private Set<Product> likedProducts = new HashSet<>();
-    
-    // Constructors
-    public User() {}
-    
-    public User(String username, String email, String password) {
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Like> likes = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<View> views = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
+
+    public User() {
+    }
+
+    public User(String username, String email, String passwordHash) {
         this.username = username;
         this.email = email;
-        this.password = password;
+        this.passwordHash = passwordHash;
     }
-    
-    // Getters and Setters
+
+    @PrePersist
+    public void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public String getUsername() {
         return username;
     }
-    
+
     public void setUsername(String username) {
         this.username = username;
     }
-    
+
     public String getEmail() {
         return email;
     }
-    
+
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    public String getPassword() {
-        return password;
+
+    public String getPasswordHash() {
+        return passwordHash;
     }
-    
-    public void setPassword(String password) {
-        this.password = password;
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
-    
-    public String getPhone() {
-        return phone;
+
+    public String getFullName() {
+        return fullName;
     }
-    
-    public void setPhone(String phone) {
-        this.phone = phone;
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
-    
-    public String getAddress() {
-        return address;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
-    
-    public void setAddress(String address) {
-        this.address = address;
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
-    
-    public String getCity() {
-        return city;
+
+    public String getProfileImage() {
+        return profileImage;
     }
-    
-    public void setCity(String city) {
-        this.city = city;
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
-    
-    public String getZipCode() {
-        return zipCode;
-    }
-    
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-    
-    public String getCountry() {
-        return country;
-    }
-    
-    public void setCountry(String country) {
-        this.country = country;
-    }
-    
+
     public String getBio() {
         return bio;
     }
-    
+
     public void setBio(String bio) {
         this.bio = bio;
     }
-    
-    public String getProfileImageUrl() {
-        return profileImageUrl;
+
+    public String getShippingAddress() {
+        return shippingAddress;
     }
-    
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
-    
-    public Double getRating() {
-        return rating;
+
+    public String getPaymentInfoEncrypted() {
+        return paymentInfoEncrypted;
     }
-    
-    public void setRating(Double rating) {
-        this.rating = rating;
+
+    public void setPaymentInfoEncrypted(String paymentInfoEncrypted) {
+        this.paymentInfoEncrypted = paymentInfoEncrypted;
     }
-    
-    public Integer getProductCount() {
-        return productCount;
+
+    public Boolean getVerified() {
+        return verified;
     }
-    
-    public void setProductCount(Integer productCount) {
-        this.productCount = productCount;
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
     }
-    
-    public Integer getSalesCount() {
-        return salesCount;
-    }
-    
-    public void setSalesCount(Integer salesCount) {
-        this.salesCount = salesCount;
-    }
-    
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
-    
+
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-    
+
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
-    
+
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-    
-    public Set<Product> getProducts() {
+
+    public List<Product> getProducts() {
         return products;
     }
-    
-    public void setProducts(Set<Product> products) {
+
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
-    
-    public Set<Order> getOrders() {
-        return orders;
+
+    public List<Order> getOrdersPlaced() {
+        return ordersPlaced;
     }
-    
-    public void setOrders(Set<Order> orders) {
-        this.orders = orders;
+
+    public void setOrdersPlaced(List<Order> ordersPlaced) {
+        this.ordersPlaced = ordersPlaced;
     }
-    
+
+    public List<Order> getOrdersFulfilled() {
+        return ordersFulfilled;
+    }
+
+    public void setOrdersFulfilled(List<Order> ordersFulfilled) {
+        this.ordersFulfilled = ordersFulfilled;
+    }
+
     public Cart getCart() {
         return cart;
     }
-    
+
     public void setCart(Cart cart) {
         this.cart = cart;
     }
-    
-    public Set<Product> getLikedProducts() {
-        return likedProducts;
+
+    public Set<Like> getLikes() {
+        return likes;
     }
-    
-    public void setLikedProducts(Set<Product> likedProducts) {
-        this.likedProducts = likedProducts;
+
+    public void setLikes(Set<Like> likes) {
+        this.likes = likes;
+    }
+
+    public Set<View> getViews() {
+        return views;
+    }
+
+    public void setViews(Set<View> views) {
+        this.views = views;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
