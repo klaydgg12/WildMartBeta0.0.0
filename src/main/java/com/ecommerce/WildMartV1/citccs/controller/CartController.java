@@ -62,8 +62,19 @@ public class CartController {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         
-        CartItem cartItem = new CartItem(cart, product, quantity);
-        cart.addItem(cartItem);
+        CartItem cartItem = cart.getItems().stream()
+                .filter(item -> item.getProduct().getId().equals(productId))
+                .findFirst()
+                .orElse(null);
+
+        if (cartItem == null) {
+            cartItem = new CartItem(cart, product, quantity, product.getPrice());
+            cart.addItem(cartItem);
+        } else {
+            cartItem.setQuantity(cartItem.getQuantity() + quantity);
+            cartItem.setPriceAtAddition(product.getPrice());
+        }
+
         cartRepository.save(cart);
         
         return ResponseEntity.ok().build();
@@ -77,7 +88,11 @@ public class CartController {
         CartItem item = cartItemRepository.findById(itemId)
                 .orElseThrow(() -> new RuntimeException("Cart item not found"));
         
-        item.setQuantity(request.get("quantity"));
+        Integer quantity = request.get("quantity");
+        if (quantity == null || quantity <= 0) {
+            throw new RuntimeException("Quantity must be greater than zero");
+        }
+        item.setQuantity(quantity);
         cartItemRepository.save(item);
         
         return ResponseEntity.ok().build();

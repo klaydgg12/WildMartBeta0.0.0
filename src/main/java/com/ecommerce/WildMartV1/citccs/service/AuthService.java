@@ -1,5 +1,6 @@
 package com.ecommerce.WildMartV1.citccs.service;
 
+import com.ecommerce.WildMartV1.citccs.config.JwtService;
 import com.ecommerce.WildMartV1.citccs.dto.AuthResponse;
 import com.ecommerce.WildMartV1.citccs.dto.LoginRequest;
 import com.ecommerce.WildMartV1.citccs.dto.SignupRequest;
@@ -9,7 +10,10 @@ import com.ecommerce.WildMartV1.citccs.model.User;
 import com.ecommerce.WildMartV1.citccs.repository.CartRepository;
 import com.ecommerce.WildMartV1.citccs.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -19,6 +23,12 @@ public class AuthService {
     
     @Autowired
     private CartRepository cartRepository;
+    
+    @Autowired
+    private JwtService jwtService;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     
     public AuthResponse register(SignupRequest request) {
         // Check if user already exists
@@ -34,7 +44,7 @@ public class AuthService {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword()); // In production, hash the password
+        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         
         user = userRepository.save(user);
         
@@ -42,8 +52,8 @@ public class AuthService {
         Cart cart = new Cart(user);
         cartRepository.save(cart);
         
-        // Generate token (simplified - in production use JWT)
-        String token = "token_" + user.getId();
+        // Generate JWT token
+        String token = jwtService.generateToken(user.getEmail());
         
         return new AuthResponse(token, convertToDTO(user));
     }
@@ -52,15 +62,25 @@ public class AuthService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Invalid credentials"));
         
-        // In production, verify hashed password
-        if (!user.getPassword().equals(request.getPassword())) {
+        // Verify password
+        if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
             throw new RuntimeException("Invalid credentials");
         }
         
-        // Generate token (simplified - in production use JWT)
-        String token = "token_" + user.getId();
+        // Generate JWT token
+        String token = jwtService.generateToken(user.getEmail());
         
         return new AuthResponse(token, convertToDTO(user));
+    }
+    
+    public boolean validateToken(String token) {
+        try {
+            String username = jwtService.extractUsername(token);
+            Optional<User> user = userRepository.findByEmail(username);
+            return user.isPresent() && jwtService.validateToken(token, username);
+        } catch (Exception e) {
+            return false;
+        }
     }
     
     private UserDTO convertToDTO(User user) {
@@ -68,16 +88,13 @@ public class AuthService {
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());
-        dto.setPhone(user.getPhone());
-        dto.setAddress(user.getAddress());
-        dto.setCity(user.getCity());
-        dto.setZipCode(user.getZipCode());
-        dto.setCountry(user.getCountry());
+        dto.setFullName(user.getFullName());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setProfileImage(user.getProfileImage());
+        dto.setShippingAddress(user.getShippingAddress());
+        dto.setPaymentInfoEncrypted(user.getPaymentInfoEncrypted());
+        dto.setVerified(user.getVerified());
         dto.setBio(user.getBio());
-        dto.setProfileImageUrl(user.getProfileImageUrl());
-        dto.setRating(user.getRating());
-        dto.setProductCount(user.getProductCount());
-        dto.setSalesCount(user.getSalesCount());
         return dto;
     }
 }
