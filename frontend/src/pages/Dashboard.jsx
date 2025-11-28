@@ -10,7 +10,7 @@ const Dashboard = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [categories, setCategories] = useState(['All', 'Electronics', 'Clothing', 'Books', 'Home', 'Accesories', 'Sports']);
+  const [categories, setCategories] = useState(['All', 'Electronics', 'Clothing', 'Books', 'Home', 'Accesories', 'Sports', 'Others']);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [activeFilter, setActiveFilter] = useState('Popular');
 
@@ -64,7 +64,7 @@ const Dashboard = () => {
       
       <div className="dashboard-container">
         <div className="dashboard-header">
-          <h1>DASHBOARD</h1>
+          <h2>Dashboard</h2>
           <div className="search-and-category">
             <div className="search-bar">
               <i className="fas fa-search"></i>
