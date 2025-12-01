@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { FaEnvelope, FaLock, FaGoogle } from 'react-icons/fa';
 import '../styles/Auth.css';
 
 const Login = ({ setAuth }) => {
@@ -10,6 +11,7 @@ const Login = ({ setAuth }) => {
     password: ''
   });
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -20,6 +22,9 @@ const Login = ({ setAuth }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError('');
+
     try {
       const response = await axios.post('http://localhost:8080/api/auth/login', formData);
       localStorage.setItem('token', response.data.token);
@@ -28,7 +33,8 @@ const Login = ({ setAuth }) => {
       navigate('/dashboard');
     } catch (err) {
       setError('Invalid credentials. Please try again.');
-      console.error('Login error:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -36,7 +42,10 @@ const Login = ({ setAuth }) => {
     <div className="auth-page">
       <div className="auth-container">
         <div className="auth-visual">
-          <div className="visual-circle"></div>
+          <div className="visual-circle">
+            <h2>Welcome Back!</h2>
+            <p>Sign in to continue</p>
+          </div>
         </div>
 
         <div className="auth-form-section">
@@ -45,28 +54,34 @@ const Login = ({ setAuth }) => {
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
               <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Enter your email"
-                required
-              />
+              <div className="input-with-icon">
+                <FaEnvelope className="input-icon" />
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="your@email.com"
+                  required
+                />
+              </div>
             </div>
 
             <div className="form-group">
               <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Enter your password"
-                required
-              />
+              <div className="input-with-icon">
+                <FaLock className="input-icon" />
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
             </div>
 
             {error && <div className="error-message">{error}</div>}
@@ -75,13 +90,21 @@ const Login = ({ setAuth }) => {
               <a href="#" className="forgot-password">Forgot Password?</a>
             </div>
 
-            <button type="submit" className="btn-submit">
-              Login
+            <button type="submit" className="btn-submit" disabled={isLoading}>
+              {isLoading ? 'Logging in...' : 'Login'}
             </button>
+
+            <div className="social-login">
+              <p className="or-divider">OR</p>
+              <button type="button" className="btn-social-google">
+                <FaGoogle />
+                <span>Login with Google</span>
+              </button>
+            </div>
 
             <div className="auth-footer">
               <p>
-                Don't have an account? <Link to="/signup">Sign up here</Link>
+                Don't have an account? <Link to="/signup">Sign up</Link>
               </p>
             </div>
           </form>

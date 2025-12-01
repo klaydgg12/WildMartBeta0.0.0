@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaShoppingCart, FaBook, FaLaptop } from 'react-icons/fa';
 import '../styles/LandingPage.css';
 
 const LandingPage = () => {
@@ -7,34 +8,51 @@ const LandingPage = () => {
 
   return (
     <div className="landing-page">
-      <div className="landing-container">
-        <div className="landing-content">
-          <div className="logo-section">
-            <h1 className="brand-name">WildMart</h1>
-            <p className="university-subtitle">Your Exclusive University Marketplace</p>
-          </div>
-          
-          <div className="description-section">
-            <p className="description-text">
-              Discover a wide range of products from fellow students. 
-              Buy and sell textbooks, electronics, and more right here on campus.
-            </p>
-          </div>
+      <header className="landing-header">
+        <h1 className="brand-name">WildMart</h1>
+        <nav>
+          <button className="btn-secondary" onClick={() => navigate('/login')}>Login</button>
+          <button className="btn-primary" onClick={() => navigate('/signup')}>Sign Up</button>
+        </nav>
+      </header>
 
-          <div className="action-buttons">
-            <button 
-              className="btn-primary"
-              onClick={() => navigate('/login')}
-            >
-              Shop Now
-            </button>
+      <main className="landing-main">
+        <section className="hero-section">
+          <div className="hero-content">
+            <h2 className="hero-title">Your Campus Marketplace</h2>
+            <p className="hero-subtitle">Buy, sell, and discover amazing deals right here at your university.</p>
+            <button className="btn-primary-large" onClick={() => navigate('/signup')}>Get Started</button>
           </div>
-        </div>
+          <div className="hero-visual">
+            {/* You can add an illustration or image here */}
+          </div>
+        </section>
 
-        <div className="landing-visual">
-          <div className="visual-circle"></div>
-        </div>
-      </div>
+        <section className="features-section">
+          <h3 className="section-title">What You Can Find</h3>
+          <div className="features-grid">
+            <div className="feature-item">
+              <FaBook className="feature-icon" />
+              <h4>Textbooks</h4>
+              <p>Find required textbooks at a lower price.</p>
+            </div>
+            <div className="feature-item">
+              <FaLaptop className="feature-icon" />
+              <h4>Electronics</h4>
+              <p>Get great deals on laptops, phones, and more.</p>
+            </div>
+            <div className="feature-item">
+              <FaShoppingCart className="feature-icon" />
+              <h4>And More!</h4>
+              <p>From dorm essentials to event tickets.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="landing-footer">
+        <p>&copy; 2025 WildMart. All rights reserved.</p>
+      </footer>
     </div>
   );
 };
