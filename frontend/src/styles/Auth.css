@@ -13,7 +13,7 @@
   background: var(--background-color);
   border-radius: 20px;
   overflow: hidden;
-  max-width: 900px;
+  max-width: 750px; /* Further reduced from 900px */
   width: 100%;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
   border: 2px solid var(--secondary-color);
@@ -30,65 +30,58 @@
   overflow: hidden;
 }
 
-.auth-visual::before {
-  content: '';
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  background: rgba(255, 191, 0, 0.1);
-  border-radius: 50%;
-  filter: blur(40px);
-  color: white;
+.auth-visual-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  position: relative;
+  z-index: 2; /* Ensure content is above any background effects */
 }
 
-.auth-visual h2 {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.auth-visual p {
-  font-size: 18px;
-  max-width: 320px;
-  opacity: 0.9;
+.auth-logo {
+  max-width: 150px; /* Adjust size as needed */
+  height: auto;
+  margin-bottom: 20px; /* Space between logo and any potential text below */
+  border-radius: 50%; /* Make the image round */
 }
 
 .auth-form-section {
   flex: 1.2;
-  padding: 50px 60px;
+  padding: 30px 40px; /* Further reduced from 50px 60px */
   background-color: var(--background-color);
 }
 
 .auth-title {
   font-size: 30px;
   color: var(--primary-color);
-  margin-bottom: 12px;
+  margin-bottom: 8px; /* Further reduced from 12px */
   font-weight: 700;
 }
 
 .auth-subtitle {
   font-size: 16px;
   color: #7F8C8D;
-  margin-bottom: 35px;
+  margin-bottom: 20px; /* Further reduced from 35px */
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 10px; /* Further reduced from 22px */
 }
 
 .form-row {
   display: flex;
-  gap: 22px;
+  gap: 10px; /* Further reduced from 22px */
 }
 
 .form-group {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px; /* Further reduced from 10px */
 }
 
 .form-group label {
@@ -158,30 +151,6 @@
   box-shadow: 0 6px 20px rgba(139, 0, 0, 0.3);
 }
 
-.social-login {
-  margin-top: 25px;
-  text-align: center;
-}
-
-.or-divider {
-  margin: 25px 0;
-  color: var(--gray);
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.btn-social-google {
-  background-color: #fff;
-  color: #34495E;
-  border: 1px solid var(--light-gray);
-  width: 100%;
-}
-
-.btn-social-google:hover {
-  background-color: #F8F9F9;
-  border-color: var(--gray);
-}
 
 .auth-footer {
   margin-top: 25px;
@@ -211,4 +180,18 @@
 .error-text {
   color: #C0392B;
   font-size: 13px;
+}
+
+.gold-text {
+  color: #FFD700; /* Gold color */
+}
+
+.login-logo {
+  max-width: 150px; /* Adjust size as needed */
+  height: auto;
+  margin-bottom: 20px; /* Space between logo and text */
+  border-radius: 50%; /* Optional: if you want a round logo */
+  display: block; /* Make it a block element to apply margin auto */
+  margin-left: auto;
+  margin-right: auto;
 }

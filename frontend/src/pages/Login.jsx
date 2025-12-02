@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { FaEnvelope, FaLock, FaGoogle } from 'react-icons/fa';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 import '../styles/Auth.css';
+import logo_wildmart from '../assets/logo_wildmart.png';
 
 const Login = ({ setAuth }) => {
   const navigate = useNavigate();
@@ -43,8 +44,9 @@ const Login = ({ setAuth }) => {
       <div className="auth-container">
         <div className="auth-visual">
           <div className="visual-circle">
-            <h2>Welcome Back!</h2>
-            <p>Sign in to continue</p>
+            <img src={logo_wildmart} alt="WildMart Logo" className="login-logo" />
+            <h2 className="gold-text">Welcome Back!</h2>
+            <p className="gold-text">Sign in to continue</p>
           </div>
         </div>
 
@@ -94,13 +96,6 @@ const Login = ({ setAuth }) => {
               {isLoading ? 'Logging in...' : 'Login'}
             </button>
 
-            <div className="social-login">
-              <p className="or-divider">OR</p>
-              <button type="button" className="btn-social-google">
-                <FaGoogle />
-                <span>Login with Google</span>
-              </button>
-            </div>
 
             <div className="auth-footer">
               <p>
