@@ -8,6 +8,7 @@
 .landing-page {
   font-family: 'Poppins', sans-serif;
   color: var(--text-color);
+  padding-top: 90px; /* Adjust based on header height to prevent content from being hidden */
 }
 
 .landing-header {
@@ -17,6 +18,10 @@
   padding: 20px 50px;
   background-color: var(--background-color);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: fixed; /* Make the header fixed */
+  top: 0; /* Position it at the top */
+  width: 100%; /* Make it span the full width */
+  z-index: 1000; /* Ensure it stays on top of other content */
 }
 
 .landing-header .brand-name {
@@ -25,8 +30,12 @@
   color: var(--primary-color);
 }
 
+.landing-header nav {
+  display: flex;
+  gap: 15px; /* Add space between buttons */
+}
+
 .landing-header nav button {
-  margin-left: 15px;
   font-size: 14px;
   font-weight: 600;
 }
@@ -95,8 +104,64 @@
 .landing-footer {
   padding: 20px 50px;
   text-align: center;
-  background-color: #F8F9F9;
-  color: #7F8C8D;
+  background-color: var(--background-color);
+  color: var(--text-color);
   font-size: 14px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
 }
 
+/* Button Styles */
+.btn-primary, .btn-primary-large, .btn-secondary {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}
+
+.btn-primary:hover {
+  background-color: #6a0000; /* A darker shade of primary color */
+}
+
+.btn-primary-large {
+  padding: 15px 30px;
+  font-size: 18px;
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}
+
+.btn-primary-large:hover {
+  background-color: #6a0000;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}
+
+/* Hero Section Visual */
+.hero-visual {
+  width: 400px;
+  height: 300px;
+  background-color: var(--secondary-color); /* Using secondary color for a visual block */
+  border-radius: 10px;
+  margin-left: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: var(--primary-color);
+  font-weight: bold;
+}
