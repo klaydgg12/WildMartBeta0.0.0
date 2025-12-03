@@ -25,7 +25,7 @@ const LandingPage = () => {
             <button className="btn-primary-large" onClick={() => navigate('/signup')}>Get Started</button>
           </div>
           <div className="hero-visual">
-            {/* You can add an illustration or image here */}
+            <img src={logo} alt="WildMart Logo" style={{ width: '80%', height: 'auto' }} />
           </div>
         </section>
 
